@@ -3,6 +3,7 @@ package com.njt.unicourse.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +18,12 @@ import com.njt.unicourse.service.LecturerService;
 
 @RestController
 @RequestMapping("/api")
-public class LecturerRestControllerTest {
+@CrossOrigin(origins = "http://localhost:4200")
+public class LecturerRestController {
     private LecturerService lecturerService;
 
     @Autowired
-    public LecturerRestControllerTest(LecturerService theLecturerService) {
+    public LecturerRestController(LecturerService theLecturerService) {
 	lecturerService = theLecturerService;
     }
 

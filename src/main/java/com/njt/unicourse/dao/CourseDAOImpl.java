@@ -10,50 +10,49 @@ import org.springframework.stereotype.Repository;
 
 import com.njt.unicourse.entity.Course;
 
-
 @Repository
 public class CourseDAOImpl implements CourseDAO {
 
-		private EntityManager entityManager;
+    private EntityManager entityManager;
 
-		@Autowired
-		public CourseDAOImpl(EntityManager theEntityManager) {
-				entityManager = theEntityManager;
-		}
+    @Autowired
+    public CourseDAOImpl(EntityManager theEntityManager) {
+	entityManager = theEntityManager;
+    }
 
-		@Override
-		public List<Course> findAll() {
+    @Override
+    public List<Course> findAll() {
 
-				Query theQuery = entityManager.createQuery("from Course");
+	Query theQuery = entityManager.createQuery("from Course");
 
-				List<Course> courses = theQuery.getResultList();
+	List<Course> courses = theQuery.getResultList();
 
-				return courses;
-		}
+	return courses;
+    }
 
-		@Override
-		public Course findById(int theId) {
+    @Override
+    public Course findById(int theId) {
 
-				Course course = entityManager.find(Course.class, theId);
+	Course course = entityManager.find(Course.class, theId);
 
-				return course;
-		}
+	return course;
+    }
 
-		@Override
-		public void save(Course theCourse) {
+    @Override
+    public void save(Course theCourse) {
 
-				Course dbCourse = entityManager.merge(theCourse);
+	Course dbCourse = entityManager.merge(theCourse);
 
-				theCourse.setId(dbCourse.getId());
-		}
+	theCourse.setId(dbCourse.getId());
+    }
 
-		@Override
-		public void deleteById(int theId) {
-				Query theQuery = entityManager.createQuery("delete from Course where id=:courseId");
+    @Override
+    public void deleteById(int theId) {
+	Query theQuery = entityManager.createQuery("delete from Course where id=:courseId");
 
-				theQuery.setParameter("courseId", theId);
+	theQuery.setParameter("courseId", theId);
 
-				theQuery.executeUpdate();
+	theQuery.executeUpdate();
 
-		}
+    }
 }
