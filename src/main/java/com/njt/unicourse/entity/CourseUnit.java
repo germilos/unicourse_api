@@ -31,7 +31,7 @@ public class CourseUnit {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // TODO: Change Fetch Type to Lazy
     @JoinColumn(name = "course_id")
     @JsonBackReference
     private Course course;
