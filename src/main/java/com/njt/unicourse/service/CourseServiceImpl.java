@@ -1,47 +1,50 @@
 package com.njt.unicourse.service;
 
 import java.util.List;
-
-import javax.transaction.Transactional;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.njt.unicourse.dao.CourseDAO;
+import com.njt.unicourse.dao.CourseRepository;
 import com.njt.unicourse.entity.Course;
 
 @Service
 public class CourseServiceImpl implements CourseService {
 
-    private CourseDAO courseDAO;
+    private CourseRepository courseRepo;
 
     @Autowired
-    public CourseServiceImpl(CourseDAO theCourseDAO) {
-	courseDAO = theCourseDAO;
+    public CourseServiceImpl(CourseRepository theCourseRepository) {
+	courseRepo = theCourseRepository;
     }
 
     @Override
-    @Transactional
     public List<Course> findAll() {
-	return courseDAO.findAll();
+	return courseRepo.findAll();
     }
 
     @Override
-    @Transactional
     public Course findById(int theId) {
-	// TODO Auto-generated method stub
-	return courseDAO.findById(theId);
+	Optional<Course> result = courseRepo.findById(theId);
+
+	Course course = null;
+
+	if (result.isPresent()) {
+	    return result.get();
+	} else {
+	    throw new RuntimeException("Could not find course with id: " + theId);
+	}
     }
 
     @Override
-    @Transactional
-    public void save(Course theCourse) {
-	courseDAO.save(theCourse);
+    public Course save(Course theCourse) {
+	return courseRepo.save(theCourse);
     }
 
     @Override
-    @Transactional
     public void deleteById(int theId) {
-	courseDAO.deleteById(theId);
+	courseRepo.deleteById(theId);
     }
+
 }

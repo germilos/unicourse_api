@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.njt.unicourse.dao.StudyProgramRepository;
 import com.njt.unicourse.entity.StudyProgram;
 
+@Service
 public class StudyProgramServiceImpl implements StudyProgramService {
     private StudyProgramRepository studyProgramRepo;
 

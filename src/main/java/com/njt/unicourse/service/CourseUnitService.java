@@ -1,16 +1,13 @@
 package com.njt.unicourse.service;
 
-import java.util.List;
-
 import com.njt.unicourse.entity.Course;
+import com.njt.unicourse.entity.CourseUnit;
 
-public interface CourseService {
-
-    public List<Course> findAll();
+public interface CourseUnitService {
 
     public Course findById(int theId);
 
-    public Course save(Course theCourse);
+    public Course save(CourseUnit theCourseUnit);
 
     public void deleteById(int theId);
 }

@@ -22,10 +22,12 @@ import com.njt.unicourse.service.CourseService;
 public class CourseRestController {
 
     private CourseService courseService;
+//    private CourseUnitService courseUnitService;
 
     @Autowired
     public CourseRestController(CourseService theCourseService) {
 	courseService = theCourseService;
+//	courseUnitService = theCourseService;
     }
 
     @GetMapping("/courses")
@@ -39,13 +41,12 @@ public class CourseRestController {
     }
 
     @PostMapping("/courses")
-    public Course addCourse(@RequestBody Course theCourse) {
-
+    public void addCourse(@RequestBody Course theCourse) {
 	theCourse.setId(0);
-
-	courseService.save(theCourse);
-
-	return theCourse;
+	System.out.println("--------" + theCourse);
+	theCourse.getCourseUnits();
+	Course savedCourse = courseService.save(theCourse);
+	System.out.println("-----------" + savedCourse);
     }
 
     @PutMapping("/courses")

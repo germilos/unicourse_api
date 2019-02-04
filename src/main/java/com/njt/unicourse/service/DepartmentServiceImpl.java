@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.njt.unicourse.dao.DepartmentRepository;
 import com.njt.unicourse.entity.Department;
 
+@Service
 public class DepartmentServiceImpl implements DepartmentService {
 
     private DepartmentRepository departmentRepo;

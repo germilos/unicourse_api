@@ -46,7 +46,7 @@ public class Course {
     @JoinColumn(name = "study_program_id")
     private StudyProgram studyProgram;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private List<CourseUnit> courseUnits;
 
@@ -152,6 +152,6 @@ public class Course {
     @Override
     public String toString() {
 	return "Course [id=" + id + ", name=" + name + ", goal=" + goal + ", status=" + status + ", espb=" + espb
-		+ ", courseUnits=" + courseUnits + "]";
+		+ ", courseUnits=" + courseUnits + "]" + "department = " + department;
     }
 }
