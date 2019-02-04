@@ -7,16 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.njt.unicourse.dao.CourseRepository;
+import com.njt.unicourse.dao.CourseUnitRepository;
 import com.njt.unicourse.entity.Course;
+import com.njt.unicourse.entity.CourseUnit;
 
 @Service
 public class CourseServiceImpl implements CourseService {
 
     private CourseRepository courseRepo;
+    private CourseUnitRepository courseUnitRepo;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository theCourseRepository) {
+    public CourseServiceImpl(CourseRepository theCourseRepository, CourseUnitRepository theCourseUnitRepository) {
 	courseRepo = theCourseRepository;
+	courseUnitRepo = theCourseUnitRepository;
     }
 
     @Override
@@ -31,7 +35,9 @@ public class CourseServiceImpl implements CourseService {
 	Course course = null;
 
 	if (result.isPresent()) {
-	    return result.get();
+	    course = result.get();
+	    course.getCourseUnits();
+	    return course;
 	} else {
 	    throw new RuntimeException("Could not find course with id: " + theId);
 	}
@@ -39,7 +45,16 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course save(Course theCourse) {
-	return courseRepo.save(theCourse);
+	List<CourseUnit> courseUnits = theCourse.getCourseUnits();
+	theCourse.setCourseUnits(null);
+
+	Course savedCourse = courseRepo.save(theCourse);
+	for (CourseUnit theCourseUnit : courseUnits) {
+	    theCourseUnit.setCourse(savedCourse);
+	    courseUnitRepo.save(theCourseUnit);
+	}
+	savedCourse.setCourseUnits(courseUnits);
+	return savedCourse;
     }
 
     @Override

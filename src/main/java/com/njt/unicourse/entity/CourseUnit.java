@@ -3,12 +3,15 @@ package com.njt.unicourse.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "course_unit")
@@ -28,8 +31,9 @@ public class CourseUnit {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id")
+    @JsonBackReference
     private Course course;
 
     public CourseUnit() {
@@ -72,6 +76,14 @@ public class CourseUnit {
 
     public void setDescription(String description) {
 	this.description = description;
+    }
+
+    public Course getCourse() {
+	return course;
+    }
+
+    public void setCourse(Course course) {
+	this.course = course;
     }
 
     @Override
