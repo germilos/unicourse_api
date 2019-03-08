@@ -45,10 +45,20 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course save(Course theCourse) {
+	/*
+	 * Get course units from passed Course - they do not have courseId value 
+	 * (POST method)
+	 */
 	List<CourseUnit> courseUnits = theCourse.getCourseUnits();
 	theCourse.setCourseUnits(null);
 
+	// Save passed Course without course units
 	Course savedCourse = courseRepo.save(theCourse);
+
+	/*
+	 * Iterate through course unit list, assigning saved Course to each and then
+	 * saving each unit individually
+	 */
 	for (CourseUnit theCourseUnit : courseUnits) {
 	    theCourseUnit.setCourse(savedCourse);
 	    courseUnitRepo.save(theCourseUnit);
