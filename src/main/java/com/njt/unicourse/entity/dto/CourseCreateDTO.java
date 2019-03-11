@@ -3,14 +3,6 @@ package com.njt.unicourse.entity.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
 import com.njt.unicourse.entity.CourseUnit;
 import com.njt.unicourse.entity.Department;
 import com.njt.unicourse.entity.Lecturer;
@@ -18,32 +10,20 @@ import com.njt.unicourse.entity.StudyProgram;
 
 public class CourseCreateDTO {
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "goal")
     private String goal;
 
-    @Column(name = "status")
     private String status;
 
-    @Column(name = "espb")
     private int espb;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
     private Department department;
 
-    @ManyToOne
-    @JoinColumn(name = "study_program_id")
     private StudyProgram studyProgram;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "course_id")
     private List<CourseUnit> courseUnits;
 
-    @ManyToMany
-    @JoinTable(name = "course_lecturer", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "lecturer_id"))
     private List<Lecturer> lecturers;
 
     public CourseCreateDTO() {

@@ -1,7 +1,9 @@
 package com.njt.unicourse.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.njt.unicourse.entity.Course;
+import com.njt.unicourse.entity.dto.CourseListElementDTO;
 import com.njt.unicourse.service.CourseService;
 
 @RestController
@@ -22,15 +25,19 @@ import com.njt.unicourse.service.CourseService;
 public class CourseRestController {
 
     private CourseService courseService;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public CourseRestController(CourseService theCourseService) {
+    public CourseRestController(CourseService theCourseService, ModelMapper theModelMapper) {
 	courseService = theCourseService;
+	modelMapper = theModelMapper;
     }
 
     @GetMapping("/courses")
-    public List<Course> findAll() {
-	return courseService.findAll();
+    public List<CourseListElementDTO> findAll() {
+	List<Course> courses = courseService.findAll();
+	return courses.stream().map(course -> modelMapper.map(course, CourseListElementDTO.class))
+		.collect(Collectors.toList());
     }
 
     @GetMapping("/courses/{courseId}")
@@ -40,7 +47,8 @@ public class CourseRestController {
 
     @PostMapping("/courses")
     public void addCourse(@RequestBody Course theCourse) {
-	theCourse.setId(0);
+//	theCourse.setId(0);
+
 	Course savedCourse = courseService.save(theCourse);
     }
 
