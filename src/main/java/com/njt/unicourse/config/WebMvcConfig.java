@@ -25,11 +25,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	this.entityManager = entityManager;
     }
 
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-	super.addArgumentResolvers(argumentResolvers);
-	ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().applicationContext(this.applicationContext)
-		.build();
-	argumentResolvers.add(new DTOModelMapper(objectMapper, entityManager));
-    }
+//    @Override
+//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+//	super.addArgumentResolvers(argumentResolvers);
+//	ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().applicationContext(this.applicationContext)
+//		.build();
+//	argumentResolvers.add(new DTOModelMapper(objectMapper, entityManager));
+//    }
 }
