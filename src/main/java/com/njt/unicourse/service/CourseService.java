@@ -8,10 +8,12 @@ import com.njt.unicourse.entity.Course;
 
 public interface CourseService {
 
+    public long count();
+
     public List<Course> findAll();
-    
+
     public Page<Course> findAll(int page, int size, String orderBy, String direction);
-    
+
     public Course findById(int theId);
 
     public Course save(Course theCourse);

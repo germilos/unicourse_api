@@ -28,10 +28,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public long count() {
+	return courseRepo.count();
+    }
+
+    @Override
     public List<Course> findAll() {
 	return courseRepo.findAll();
     }
-    
+
     @Override
     public Page<Course> findAll(int page, int size, String orderBy, String direction) {
 	Sort sort = null;
@@ -40,7 +45,7 @@ public class CourseServiceImpl implements CourseService {
 	} else if (direction.equals("DESC")) {
 	    sort = new Sort(Sort.Direction.DESC, orderBy);
 	}
-	
+
 	Pageable pageable = PageRequest.of(page, size, sort);
 	return courseRepo.findAll(pageable);
     }
