@@ -1,5 +1,7 @@
 package com.njt.repo.dto;
 
+import com.njt.repo.entity.Department;
+
 public class CourseListElementDTO {
 
     private int id;
@@ -9,6 +11,8 @@ public class CourseListElementDTO {
     private String status;
 
     private int espb;
+
+    private Department department;
 
     public int getId() {
 	return id;
@@ -41,4 +45,13 @@ public class CourseListElementDTO {
     public void setEspb(int espb) {
 	this.espb = espb;
     }
+
+    public Department getDepartment() {
+	return department;
+    }
+
+    public void setDepartment(Department department) {
+	this.department = department;
+    }
+
 }
