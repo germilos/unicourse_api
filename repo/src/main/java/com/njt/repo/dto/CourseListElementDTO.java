@@ -4,54 +4,54 @@ import com.njt.repo.entity.Department;
 
 public class CourseListElementDTO {
 
-    private int id;
+	private int id;
 
-    private String name;
+	private String name;
 
-    private String status;
+	private String status;
 
-    private int espb;
+	private int espb;
 
-    private Department department;
+	private Department department;
 
-    public int getId() {
-	return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-	this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getName() {
-	return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-	this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getStatus() {
-	return status;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public void setStatus(String status) {
-	this.status = status;
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    public int getEspb() {
-	return espb;
-    }
+	public int getEspb() {
+		return espb;
+	}
 
-    public void setEspb(int espb) {
-	this.espb = espb;
-    }
+	public void setEspb(int espb) {
+		this.espb = espb;
+	}
 
-    public Department getDepartment() {
-	return department;
-    }
+	public Department getDepartment() {
+		return department;
+	}
 
-    public void setDepartment(Department department) {
-	this.department = department;
-    }
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
 
 }

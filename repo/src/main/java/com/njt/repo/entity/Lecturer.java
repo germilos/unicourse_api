@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Transient;
+
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -38,6 +40,9 @@ public abstract class Lecturer {
     @Column(name = "study_field")
     protected String studyField;
 
+    @Column(name = "type", insertable = false, updatable = false)
+    protected char type;
+    
     @ManyToOne
     @JoinColumn(name = "department_id")
     protected Department department;
@@ -86,4 +91,21 @@ public abstract class Lecturer {
     public void setDepartment(Department department) {
 	this.department = department;
     }
+
+    @Transient
+	public char getType() {
+		return type;
+	}
+
+	public void setType(char type) {
+		this.type = type;
+	}
+
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
 }
