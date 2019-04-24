@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -30,69 +31,70 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonSubTypes({ @Type(value = Professor.class, name = "P"), @Type(value = Assistant.class, name = "A") })
 public abstract class Lecturer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	protected int id;
 
-    @Column(name = "name_surname")
-    protected String nameSurname;
+	@Column(name = "name_surname")
+	protected String nameSurname;
 
-    @Column(name = "study_field")
-    protected String studyField;
+	@Column(name = "study_field")
+	protected String studyField;
 
-    @Column(name = "type", insertable = false, updatable = false)
-    protected char type;
-    
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    protected Department department;
+	@Column(name = "type", insertable = false, updatable = false)
+	protected char type;
 
-    @ManyToMany
-    @JoinTable(name = "course_lecturer", joinColumns = @JoinColumn(name = "lecturer_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private List<Course> courses;
+	@ManyToOne
+	@JoinColumn(name = "department_id")
+	protected Department department;
 
-    public Lecturer() {
-    }
+	@ManyToMany
+	@JoinTable(name = "course_lecturer", joinColumns = @JoinColumn(name = "lecturer_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
+	@JsonBackReference
+	private List<Course> courses;
 
-    public Lecturer(String nameSurname, String studyField, Department department) {
-	this.nameSurname = nameSurname;
-	this.studyField = studyField;
-	this.department = department;
-    }
+	public Lecturer() {
+	}
 
-    public int getId() {
-	return id;
-    }
+	public Lecturer(String nameSurname, String studyField, Department department) {
+		this.nameSurname = nameSurname;
+		this.studyField = studyField;
+		this.department = department;
+	}
 
-    public void setId(int id) {
-	this.id = id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public String getNameSurname() {
-	return nameSurname;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setNameSurname(String nameSurname) {
-	this.nameSurname = nameSurname;
-    }
+	public String getNameSurname() {
+		return nameSurname;
+	}
 
-    public String getStudyField() {
-	return studyField;
-    }
+	public void setNameSurname(String nameSurname) {
+		this.nameSurname = nameSurname;
+	}
 
-    public void setStudyField(String studyField) {
-	this.studyField = studyField;
-    }
+	public String getStudyField() {
+		return studyField;
+	}
 
-    public Department getDepartment() {
-	return department;
-    }
+	public void setStudyField(String studyField) {
+		this.studyField = studyField;
+	}
 
-    public void setDepartment(Department department) {
-	this.department = department;
-    }
+	public Department getDepartment() {
+		return department;
+	}
 
-    @Transient
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	@Transient
 	public char getType() {
 		return type;
 	}
@@ -108,4 +110,12 @@ public abstract class Lecturer {
 	public void setCourses(List<Course> courses) {
 		this.courses = courses;
 	}
+
+	@Override
+	public String toString() {
+		return "Lecturer [id=" + id + ", nameSurname=" + nameSurname + ", studyField=" + studyField + ", type=" + type
+				+ ", department=" + department + ", courses=" + courses + "]";
+	}
+	
+	
 }

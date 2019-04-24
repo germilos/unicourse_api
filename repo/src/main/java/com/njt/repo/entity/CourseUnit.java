@@ -1,6 +1,5 @@
 package com.njt.repo.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,77 +16,76 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name = "course_unit")
 public class CourseUnit {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
 
-    @Column(name = "number")
-    private int number;
+	@Column(name = "number")
+	private int number;
 
-    @Column(name = "name")
-    private String name;
+	@Column(name = "name")
+	private String name;
 
-    @Column(name = "description")
-    private String description;
+	@Column(name = "description")
+	private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // TODO: Change Fetch Type to Lazy
-    @JoinColumn(name = "course_id")
-    @JsonBackReference
-    private Course course;
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "course_id")
+	@JsonBackReference
+	private Course course;
 
-    public CourseUnit() {
+	public CourseUnit() {}
 
-    }
+	public CourseUnit(int number, String name, String description, Course course) {
+		this.number = number;
+		this.name = name;
+		this.description = description;
+		this.course = course;
+	}
 
-    public CourseUnit(int number, String name, String description) {
-	this.number = number;
-	this.name = name;
-	this.description = description;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public int getId() {
-	return id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setId(int id) {
-	this.id = id;
-    }
+	public int getNumber() {
+		return number;
+	}
 
-    public int getNumber() {
-	return number;
-    }
+	public void setNumber(int number) {
+		this.number = number;
+	}
 
-    public void setNumber(int number) {
-	this.number = number;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-	return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setName(String name) {
-	this.name = name;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public String getDescription() {
-	return description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setDescription(String description) {
-	this.description = description;
-    }
+	public Course getCourse() {
+		return course;
+	}
 
-    public Course getCourse() {
-	return course;
-    }
+	public void setCourse(Course course) {
+		this.course = course;
+	}
 
-    public void setCourse(Course course) {
-	this.course = course;
-    }
-
-    @Override
-    public String toString() {
-	return "CourseUnit [id=" + id + ", number=" + number + ", name=" + name + ", description=" + description + "]";
-    }
+	@Override
+	public String toString() {
+		return "CourseUnit [id=" + id + ", number=" + number + ", name=" + name + ", description=" + description + "]";
+	}
 }

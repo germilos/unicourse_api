@@ -3,34 +3,30 @@ package com.njt.service.impl;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.njt.repo.CourseRepository;
-import com.njt.repo.CourseUnitRepository;
 import com.njt.repo.entity.Course;
-import com.njt.repo.entity.CourseUnit;
+import com.njt.repo.entity.Lecturer;
 import com.njt.service.CourseService;
+import com.njt.service.exception.NotFoundException;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class CourseServiceImpl implements CourseService {
 
 	private CourseRepository courseRepo;
-	private CourseUnitRepository courseUnitRepo;
 
 	@Autowired
-	public CourseServiceImpl(CourseRepository theCourseRepository, CourseUnitRepository theCourseUnitRepository) {
+	public CourseServiceImpl(CourseRepository theCourseRepository) {
 		courseRepo = theCourseRepository;
-		courseUnitRepo = theCourseUnitRepository;
 	}
 
+	// TODO: Remove, unnecessary with Page
 	@Override
 	public long count() {
 		return courseRepo.count();
@@ -38,80 +34,113 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public List<Course> findAll() {
-		return courseRepo.findAll();
+		List<Course> courses = null;
+		try {
+			courses = courseRepo.findAll();
+			if (courses == null) {
+				throw new RuntimeException("Error retrieving courses!");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		return courses;
 	}
 
 	@Override
-	public Page<Course> findAll(int page, int size, String orderBy, String direction) {
-		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
-		return courseRepo.findAll(pageable);
+	public Page<Course> findAll(Pageable pageable) {
+		Page<Course> coursesPage = null;
+		try {
+			coursesPage = courseRepo.findAll(pageable);
+			if (coursesPage == null) {
+				throw new RuntimeException("Error retrieving courses!");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		return coursesPage;
 	}
 
 	@Override
-	public Page<Course> findByNameContaining(String name, int page, int size, String orderBy, String direction) {
-		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
-		return courseRepo.findByNameContaining(name, pageable);
+	public Page<Course> findByNameContaining(String name, Pageable pageable) {
+		Page<Course> coursesPage = null;
+		try {
+			coursesPage = courseRepo.findByNameContaining(name, pageable);
+			if (coursesPage == null) {
+				throw new RuntimeException("Error retrieving courses!");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		return coursesPage;
 	}
 
 	@Override
-	public Page<Course> findByDepartmentIds(List<Integer> departmentIds, int page, int size, String orderBy,
-			String direction) {
-		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
-		return courseRepo.findByDepartmentIdIn(departmentIds, pageable);
+	public Page<Course> findByDepartmentIds(List<Integer> departmentIds, Pageable pageable) {
+		Page<Course> coursesPage = null;
+		try {
+			coursesPage = courseRepo.findByDepartmentIdIn(departmentIds, pageable);
+			if (coursesPage == null) {
+				throw new RuntimeException("Error retrieving courses!");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		return coursesPage;
 	}
 
 	@Override
-	public Page<Course> findByNameContainingAndDepartmentIds(String name, List<Integer> departmentIds, int page,
-			int size, String orderBy, String direction) {
-		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
-		return courseRepo.findByNameContainingAndDepartmentIdIn(name, departmentIds, pageable);
+	public Page<Course> findByNameContainingAndDepartmentIds(String name, List<Integer> departmentIds,
+			Pageable pageable) {
+		Page<Course> coursesPage = null;
+		try {
+			coursesPage = courseRepo.findByNameContainingAndDepartmentIdIn(
+										name, departmentIds, pageable);
+			if (coursesPage == null) {
+				throw new RuntimeException("Error retrieving courses!");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		return coursesPage;
 	}
 
 	@Override
 	public Course findById(int theId) {
-		Optional<Course> result = courseRepo.findById(theId);
-
-		Course course = null;
-
-		if (result.isPresent()) {
-			course = result.get();
-			course.getCourseUnits();
-			return course;
-		} else {
-			throw new RuntimeException("Could not find course with id: " + theId);
+		Optional<Course> result = null;
+		try {
+			result = courseRepo.findById(theId);
+			if (!result.isPresent()) {
+				throw new RuntimeException(
+						"Could not find course with id: " + theId);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
 		}
+		return result.get();
 	}
 
 	@Override
+	@Transactional
 	public Course save(Course theCourse) {
-		/*
-		 * Get course units from passed Course - they do not have courseId value (POST
-		 * method)
-		 */
-		List<CourseUnit> courseUnits = theCourse.getCourseUnits();
-		theCourse.setCourseUnits(null);
-
-		// Save passed Course without course units
-		Course savedCourse = courseRepo.save(theCourse);
-
-		/*
-		 * Iterate through course unit list, assigning saved Course to each and then
-		 * saving each unit individually
-		 */
-		for (CourseUnit theCourseUnit : courseUnits) {
-			theCourseUnit.setCourse(savedCourse);
-			courseUnitRepo.save(theCourseUnit);
+		Course savedCourse = null;
+		try {
+			savedCourse = courseRepo.save(theCourse);
+			if (savedCourse == null) {
+				throw new RuntimeException("Error saving course!");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
 		}
-		savedCourse.setCourseUnits(courseUnits);
 		return savedCourse;
 	}
 
 	@Override
+	@Transactional
 	public void deleteById(int theId) {
-		courseRepo.deleteById(theId);
-	}
-	
-	private Sort getSort(String direction, String orderBy) {
-		return direction.equals("ASC") ? new Sort(Sort.Direction.ASC, orderBy) : new Sort(Sort.Direction.DESC, orderBy);
+		try {
+			courseRepo.deleteById(theId);
+		} catch (Exception e) {
+			throw new RuntimeException("An error has occured while deleting the Course!");
+		}
 	}
 }

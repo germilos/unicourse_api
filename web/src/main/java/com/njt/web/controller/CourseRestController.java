@@ -6,6 +6,11 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +20,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.njt.repo.dto.CourseListElementDTO;
 import com.njt.repo.entity.Course;
 import com.njt.service.CourseService;
+import com.njt.service.exception.NotFoundException;
+import com.njt.web.util.DTOMapper;
 
 @RestController
 @RequestMapping("/api")
@@ -27,12 +35,10 @@ import com.njt.service.CourseService;
 public class CourseRestController {
 
 	private CourseService courseService;
-	private ModelMapper modelMapper;
 
 	@Autowired
-	public CourseRestController(CourseService theCourseService, ModelMapper theModelMapper) {
+	public CourseRestController(CourseService theCourseService) {
 		courseService = theCourseService;
-		modelMapper = theModelMapper;
 	}
 
 	@GetMapping("/courses/count")
@@ -43,38 +49,47 @@ public class CourseRestController {
 	@GetMapping("/courses")
 	public List<CourseListElementDTO> findAll() {
 		List<Course> courses = courseService.findAll();
-		return courses.stream().map(course -> modelMapper.map(course, CourseListElementDTO.class))
-				.collect(Collectors.toList());
+		return DTOMapper.getInstance().convertCoursesToDTO(courses);
 	}
 
 	@GetMapping(value = "courses/get", params = { "page", "size", "orderBy", "direction" })
-	public Page<Course> findPaginated(@RequestParam("page") int page, @RequestParam("size") int size,
+	public Page<CourseListElementDTO> findPaginated(@RequestParam("page") int page, @RequestParam("size") int size,
 			@RequestParam("orderBy") String orderBy, @RequestParam("direction") String direction) {
-		return courseService.findAll(page, size, orderBy, direction);
+		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
+		Page<Course> coursePage = courseService.findAll(pageable);
+		return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
+				coursePage.getTotalElements());
 	}
 
 	@GetMapping(value = "courses/get", params = { "name", "page", "size", "orderBy", "direction" })
-	public Page<Course> findByNameSurnameContaining(@RequestParam("name") String name, @RequestParam("page") int page,
-			@RequestParam("size") int size, @RequestParam("orderBy") String orderBy,
+	public Page<CourseListElementDTO> findByNameSurnameContaining(@RequestParam("name") String name,
+			@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("orderBy") String orderBy,
 			@RequestParam("direction") String direction) {
-		return courseService.findByNameContaining(name, page, size, orderBy, direction);
+		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
+		Page<Course> coursePage = courseService.findByNameContaining(name, pageable);
+		return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
+				coursePage.getTotalElements());
 	}
 
 	@GetMapping(value = "courses/get", params = { "departmentId", "page", "pageSize", "orderBy", "direction" })
-	public Page<Course> findByDepartmentIds(@RequestParam("departmentId") List<Integer> departmentId,
+	public Page<CourseListElementDTO> findByDepartmentIds(@RequestParam("departmentId") List<Integer> departmentId,
 			@RequestParam("page") int page, @RequestParam("pageSize") int size, @RequestParam("orderBy") String orderBy,
 			@RequestParam("direction") String direction) {
-		System.out.println("HERE");
-		return courseService.findByDepartmentIds(departmentId, page, size, orderBy, direction);
+		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
+		Page<Course> coursePage = courseService.findByDepartmentIds(departmentId, pageable);
+		return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
+				coursePage.getTotalElements());
 	}
 
 	@GetMapping(value = "courses/get", params = { "name", "departmentId", "page", "pageSize", "orderBy", "direction" })
-	public Page<Course> findByNameSurnameAndDepartmentIds(@RequestParam("name") String name,
+	public Page<CourseListElementDTO> findByNameSurnameAndDepartmentIds(@RequestParam("name") String name,
 			@RequestParam("departmentId") List<Integer> departmentId, @RequestParam("page") int page,
 			@RequestParam("pageSize") int size, @RequestParam("orderBy") String orderBy,
 			@RequestParam("direction") String direction) {
-		System.out.println("URL: " + "name=" + name + "departmentId=" + departmentId.get(0) + "page=" + page);
-		return courseService.findByNameContainingAndDepartmentIds(name, departmentId, page, size, orderBy, direction);
+		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
+		Page<Course> coursePage = courseService.findByNameContainingAndDepartmentIds(name, departmentId, pageable);
+		return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
+				coursePage.getTotalElements());
 	}
 
 	@GetMapping("/courses/{courseId}")
@@ -83,30 +98,21 @@ public class CourseRestController {
 	}
 
 	@PostMapping("/courses")
-	public void addCourse(@RequestBody Course theCourse) {
-//	theCourse.setId(0);
-
-		Course savedCourse = courseService.save(theCourse);
+	public Course addCourse(@RequestBody Course theCourse) {
+		return courseService.save(theCourse);
 	}
 
 	@PutMapping("/courses")
 	public Course updateCourse(@RequestBody Course theCourse) {
-
-		courseService.save(theCourse);
-
-		return theCourse;
+		return courseService.save(theCourse);
 	}
 
 	@DeleteMapping("/courses/{courseId}")
-	public String deleteCourse(@PathVariable int courseId) {
-
-		Course theCourse = courseService.findById(courseId);
-		if (theCourse == null) {
-			throw new RuntimeException("Course with id: " + courseId + " not found!");
-		}
-
+	public void deleteCourse(@PathVariable int courseId) {
 		courseService.deleteById(courseId);
+	}
 
-		return "Deleted course with id: " + courseId;
+	private Sort getSort(String direction, String orderBy) {
+		return direction.equals("ASC") ? new Sort(Sort.Direction.ASC, orderBy) : new Sort(Sort.Direction.DESC, orderBy);
 	}
 }
