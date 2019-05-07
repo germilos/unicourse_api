@@ -2,6 +2,7 @@ package com.njt.repo.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -48,8 +49,9 @@ public abstract class Lecturer {
 	@JoinColumn(name = "department_id")
 	protected Department department;
 
-	@ManyToMany
-	@JoinTable(name = "course_lecturer", joinColumns = @JoinColumn(name = "lecturer_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	@JoinTable(name = "course_lecturer", joinColumns = @JoinColumn(name = "lecturer_id"),
+		inverseJoinColumns = @JoinColumn(name = "course_id"))
 	@JsonBackReference
 	private List<Course> courses;
 
@@ -116,6 +118,27 @@ public abstract class Lecturer {
 		return "Lecturer [id=" + id + ", nameSurname=" + nameSurname + ", studyField=" + studyField + ", type=" + type
 				+ ", department=" + department + ", courses=" + courses + "]";
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Lecturer other = (Lecturer) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 	
 }

@@ -23,7 +23,7 @@ import com.njt.service.LecturerService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LecturerRestController {
 	private LecturerService lecturerService;
 

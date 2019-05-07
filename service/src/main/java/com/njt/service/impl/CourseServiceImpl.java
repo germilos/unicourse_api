@@ -1,5 +1,6 @@
 package com.njt.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.njt.repo.CourseRepository;
+import com.njt.repo.LecturerRepository;
 import com.njt.repo.entity.Course;
+import com.njt.repo.entity.CourseUnit;
 import com.njt.repo.entity.Lecturer;
 import com.njt.service.CourseService;
 import com.njt.service.exception.NotFoundException;
@@ -125,15 +128,38 @@ public class CourseServiceImpl implements CourseService {
 		Course savedCourse = null;
 		try {
 			savedCourse = courseRepo.save(theCourse);
+			
 			if (savedCourse == null) {
 				throw new RuntimeException("Error saving course!");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
 		return savedCourse;
 	}
 
+	@Override
+	@Transactional
+	public Course update(Course theCourse) {
+		Optional<Course> courseOptional = null;
+		Course courseToUpdate = null;
+		try {
+			courseOptional = courseRepo.findById(theCourse.getId());
+			if (!courseOptional.isPresent()) {
+				throw new RuntimeException("Error updating course!");
+			}
+			courseToUpdate = courseOptional.get();
+			courseToUpdate = theCourse;
+			
+			courseRepo.save(courseToUpdate);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
+		return courseToUpdate;
+	}
+	
 	@Override
 	@Transactional
 	public void deleteById(int theId) {

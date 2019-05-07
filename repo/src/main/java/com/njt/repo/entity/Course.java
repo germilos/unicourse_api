@@ -51,13 +51,13 @@ public class Course {
 	@JoinColumn(name = "course_id")
 	private List<CourseUnit> courseUnits;
 
-	@ManyToMany
-	@JoinTable(name = "course_lecturer", joinColumns = @JoinColumn(name = "course_id"),
-				inverseJoinColumns = @JoinColumn(name = "lecturer_id"))
+	@ManyToMany(cascade = {  CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	@JoinTable(name = "course_lecturer", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "lecturer_id"))
 	private List<Lecturer> lecturers;
 
 	public Course() {
 		this.courseUnits = new ArrayList<CourseUnit>();
+		this.lecturers = new ArrayList<Lecturer>();
 	}
 
 	public Course(String name, String goal, String status, int espb, Department department, StudyProgram studyProgram,
@@ -149,6 +149,12 @@ public class Course {
 		}
 
 		courseUnits.add(newUnit);
+	}
+
+	public void addLecturer(Lecturer lecturer) {
+		if (lecturers == null)
+			lecturers = new ArrayList<Lecturer>();
+		lecturers.add(lecturer);
 	}
 
 	@Override

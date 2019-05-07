@@ -12,26 +12,25 @@ import org.springframework.web.bind.annotation.RestController;
 import com.njt.repo.entity.Department;
 import com.njt.service.DepartmentService;
 
-
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DepartmentRestController {
 
-    private DepartmentService departmentService;
+	private DepartmentService departmentService;
 
-    @Autowired
-    public DepartmentRestController(DepartmentService theDepartmentService) {
-	departmentService = theDepartmentService;
-    }
+	@Autowired
+	public DepartmentRestController(DepartmentService theDepartmentService) {
+		departmentService = theDepartmentService;
+	}
 
-    @GetMapping("/departments")
-    public List<Department> findAll() {
-	return departmentService.findAll();
-    }
+	@GetMapping("/departments")
+	public List<Department> findAll() {
+		return departmentService.findAll();
+	}
 
-    @GetMapping("/departments/{departmentId}")
-    public Department getDepartment(@PathVariable int departmentId) {
-	return departmentService.findById(departmentId);
-    }
+	@GetMapping("/departments/{departmentId}")
+	public Department getDepartment(@PathVariable int departmentId) {
+		return departmentService.findById(departmentId);
+	}
 }

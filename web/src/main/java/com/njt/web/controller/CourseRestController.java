@@ -31,7 +31,7 @@ import com.njt.web.util.DTOMapper;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CourseRestController {
 
 	private CourseService courseService;
@@ -55,6 +55,7 @@ public class CourseRestController {
 	@GetMapping(value = "courses/get", params = { "page", "size", "orderBy", "direction" })
 	public Page<CourseListElementDTO> findPaginated(@RequestParam("page") int page, @RequestParam("size") int size,
 			@RequestParam("orderBy") String orderBy, @RequestParam("direction") String direction) {
+		
 		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
 		Page<Course> coursePage = courseService.findAll(pageable);
 		return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
@@ -86,6 +87,7 @@ public class CourseRestController {
 			@RequestParam("departmentId") List<Integer> departmentId, @RequestParam("page") int page,
 			@RequestParam("pageSize") int size, @RequestParam("orderBy") String orderBy,
 			@RequestParam("direction") String direction) {
+		
 		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
 		Page<Course> coursePage = courseService.findByNameContainingAndDepartmentIds(name, departmentId, pageable);
 		return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
@@ -104,7 +106,7 @@ public class CourseRestController {
 
 	@PutMapping("/courses")
 	public Course updateCourse(@RequestBody Course theCourse) {
-		return courseService.save(theCourse);
+		return courseService.update(theCourse);
 	}
 
 	@DeleteMapping("/courses/{courseId}")

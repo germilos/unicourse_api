@@ -12,26 +12,25 @@ import org.springframework.web.bind.annotation.RestController;
 import com.njt.repo.entity.StudyProgram;
 import com.njt.service.StudyProgramService;
 
-
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class StudyProgramRestController {
 
-    private StudyProgramService studyProgramService;
+	private StudyProgramService studyProgramService;
 
-    @Autowired
-    public StudyProgramRestController(StudyProgramService theStudyProgramService) {
-	studyProgramService = theStudyProgramService;
-    }
+	@Autowired
+	public StudyProgramRestController(StudyProgramService theStudyProgramService) {
+		studyProgramService = theStudyProgramService;
+	}
 
-    @GetMapping("/studyprograms")
-    public List<StudyProgram> findAll() {
-	return studyProgramService.findAll();
-    }
+	@GetMapping("/studyprograms")
+	public List<StudyProgram> findAll() {
+		return studyProgramService.findAll();
+	}
 
-    @GetMapping("/studyprograms/{studyProgramId}")
-    public StudyProgram getStudyProgram(@PathVariable int studyProgramId) {
-	return studyProgramService.findById(studyProgramId);
-    }
+	@GetMapping("/studyprograms/{studyProgramId}")
+	public StudyProgram getStudyProgram(@PathVariable int studyProgramId) {
+		return studyProgramService.findById(studyProgramId);
+	}
 }

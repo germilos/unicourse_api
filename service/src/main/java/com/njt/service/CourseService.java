@@ -27,6 +27,8 @@ public interface CourseService {
 	public Course findById(int theId);
 
 	public Course save(Course theCourse);
-
+	
+	public Course update(Course theCourse);
+	
 	public void deleteById(int theId);
 }
