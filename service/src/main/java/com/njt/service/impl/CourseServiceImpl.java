@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.njt.repo.CourseUnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +24,12 @@ import com.njt.service.exception.NotFoundException;
 public class CourseServiceImpl implements CourseService {
 
 	private CourseRepository courseRepo;
+	private CourseUnitRepository courseUnitRepo;
 
 	@Autowired
-	public CourseServiceImpl(CourseRepository theCourseRepository) {
+	public CourseServiceImpl(CourseRepository theCourseRepository, CourseUnitRepository theCourseUnitRepo) {
 		courseRepo = theCourseRepository;
+		courseUnitRepo = theCourseUnitRepo;
 	}
 
 	// TODO: Remove, unnecessary with Page
@@ -127,8 +130,13 @@ public class CourseServiceImpl implements CourseService {
 	public Course save(Course theCourse) {
 		Course savedCourse = null;
 		try {
+			List<CourseUnit> courseUnits = theCourse.getCourseUnits();
+			theCourse.setCourseUnits(null);
+
 			savedCourse = courseRepo.save(theCourse);
-			
+			for (CourseUnit courseUnit: courseUnits) {
+				theCourse.addCourseUnit(courseUnit);
+			}
 			if (savedCourse == null) {
 				throw new RuntimeException("Error saving course!");
 			}
@@ -150,9 +158,19 @@ public class CourseServiceImpl implements CourseService {
 				throw new RuntimeException("Error updating course!");
 			}
 			courseToUpdate = courseOptional.get();
-			courseToUpdate = theCourse;
-			
-			courseRepo.save(courseToUpdate);
+			courseToUpdate.clearCourseUnits();
+
+			courseToUpdate.setName(theCourse.getName());
+			courseToUpdate.setEspb(theCourse.getEspb());
+			courseToUpdate.setDepartment(theCourse.getDepartment());
+			courseToUpdate.setGoal(theCourse.getGoal());
+			courseToUpdate.setStatus(theCourse.getStatus());
+			courseToUpdate.setStudyProgram(theCourse.getStudyProgram());
+			courseToUpdate.setLecturers(theCourse.getLecturers());
+
+			for(CourseUnit courseUnit : theCourse.getCourseUnits()) {
+				courseToUpdate.addCourseUnit(courseUnit);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());

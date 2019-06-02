@@ -12,6 +12,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "course_unit")
 public class CourseUnit {
@@ -30,7 +32,7 @@ public class CourseUnit {
 	@Column(name = "description")
 	private String description;
 
-	@ManyToOne(fetch = FetchType.LAZY) 
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "course_id")
 	@JsonBackReference
 	private Course course;
@@ -87,5 +89,20 @@ public class CourseUnit {
 	@Override
 	public String toString() {
 		return "CourseUnit [id=" + id + ", number=" + number + ", name=" + name + ", description=" + description + "]";
+	}
+
+	@Override public boolean equals(Object o)
+	{
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		CourseUnit that = (CourseUnit) o;
+		return id == that.id;
+	}
+
+	@Override public int hashCode()
+	{
+		return Objects.hash(id);
 	}
 }

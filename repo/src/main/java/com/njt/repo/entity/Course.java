@@ -47,8 +47,7 @@ public class Course {
 	@JoinColumn(name = "study_program_id")
 	private StudyProgram studyProgram;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "course_id")
+	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CourseUnit> courseUnits;
 
 	@ManyToMany(cascade = {  CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
@@ -149,6 +148,19 @@ public class Course {
 		}
 
 		courseUnits.add(newUnit);
+		newUnit.setCourse(this);
+	}
+
+	public void removeCourseUnit(CourseUnit courseUnit) {
+		courseUnits.remove(courseUnit);
+		courseUnit.setCourse(null);
+	}
+
+	public void clearCourseUnits() {
+		for (CourseUnit courseUnit : courseUnits) {
+			courseUnit.setCourse(null);
+		}
+		courseUnits.clear();
 	}
 
 	public void addLecturer(Lecturer lecturer) {

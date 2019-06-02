@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+	<changeSet id="insert-jwt-security-tables" author="Milos">
+		<createTable tableName="role">
+			<column name="id" type="INT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(50)" />
+		</createTable>
+		<createTable tableName="user">
+			<column name="id" type="BIGINT(20)">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="email" type="VARCHAR(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="username" type="VARCHAR(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="password" type="VARCHAR(50)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<createTable tableName="user_role">
+			<column name="id" type="BIGINT(20)"></column>
+			<column name="user_id" type="BIGINT(20)" />
+			<column name="role_id" type="BIGINT(20)" />
+		</createTable>
+	</changeSet>
+	<changeSet id="user_role_foreign_keys" author="Milos">
+
+		<addForeignKeyConstraint
+			baseColumnNames="role_id" baseTableName="user_role"
+			constraintName="role_id_fk" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="role" validate="true" />
+		<addForeignKeyConstraint
+			baseColumnNames="user_id" baseTableName="user_role"
+			constraintName="user_id_fk" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="user" validate="true" />
+	</changeSet>
+	<changeSet author="Milos" id="dropRoleTable">
+		<dropTable cascadeConstraints="true" catalogName="liquitest"
+			schemaName="public" tableName="role" />
+		<createTable tableName="role">
+			<column name="id" type="BIGINT(20)">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(50)" />
+		</createTable>
+	</changeSet>
+</databaseChangeLog>
