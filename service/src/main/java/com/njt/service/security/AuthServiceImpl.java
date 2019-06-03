@@ -44,6 +44,8 @@ public class AuthServiceImpl implements AuthService
 	JwtProvider jwtProvider;
 	
 	public JwtResponse authenticateUser(LoginFormDTO loginRequest) {
+
+		System.out.println("Finished auth");
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
 						loginRequest.getPassword()));
