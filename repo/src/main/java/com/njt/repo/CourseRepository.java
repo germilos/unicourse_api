@@ -8,9 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.njt.repo.entity.Course;
 
-public interface CourseRepository extends JpaRepository<Course, Integer> {
-	
+public interface CourseRepository extends JpaRepository<Course, Integer>
+{
+
 	Page<Course> findByNameContaining(String name, Pageable pageable);
+
 	Page<Course> findByDepartmentIdIn(List<Integer> departmentIds, Pageable pageable);
+
 	Page<Course> findByNameContainingAndDepartmentIdIn(String name, List<Integer> departmentIds, Pageable pageable);
-} 
+}

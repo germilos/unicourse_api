@@ -21,74 +21,97 @@ import com.njt.service.exception.NotFoundException;
 
 @Service
 @Transactional(readOnly = true)
-public class CourseServiceImpl implements CourseService {
+public class CourseServiceImpl implements CourseService
+{
 
 	private CourseRepository courseRepo;
 	private CourseUnitRepository courseUnitRepo;
 
 	@Autowired
-	public CourseServiceImpl(CourseRepository theCourseRepository, CourseUnitRepository theCourseUnitRepo) {
+	public CourseServiceImpl(CourseRepository theCourseRepository, CourseUnitRepository theCourseUnitRepo)
+	{
 		courseRepo = theCourseRepository;
 		courseUnitRepo = theCourseUnitRepo;
 	}
 
 	// TODO: Remove, unnecessary with Page
 	@Override
-	public long count() {
+	public long count()
+	{
 		return courseRepo.count();
 	}
 
 	@Override
-	public List<Course> findAll() {
+	public List<Course> findAll()
+	{
 		List<Course> courses = null;
-		try {
+		try
+		{
 			courses = courseRepo.findAll();
-			if (courses == null) {
+			if (courses == null)
+			{
 				throw new RuntimeException("Error retrieving courses!");
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(e.getMessage());
 		}
 		return courses;
 	}
 
 	@Override
-	public Page<Course> findAll(Pageable pageable) {
+	public Page<Course> findAll(Pageable pageable)
+	{
 		Page<Course> coursesPage = null;
-		try {
+		try
+		{
 			coursesPage = courseRepo.findAll(pageable);
-			if (coursesPage == null) {
+			if (coursesPage == null)
+			{
 				throw new RuntimeException("Error retrieving courses!");
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(e.getMessage());
 		}
 		return coursesPage;
 	}
 
 	@Override
-	public Page<Course> findByNameContaining(String name, Pageable pageable) {
+	public Page<Course> findByNameContaining(String name, Pageable pageable)
+	{
 		Page<Course> coursesPage = null;
-		try {
+		try
+		{
 			coursesPage = courseRepo.findByNameContaining(name, pageable);
-			if (coursesPage == null) {
+			if (coursesPage == null)
+			{
 				throw new RuntimeException("Error retrieving courses!");
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(e.getMessage());
 		}
 		return coursesPage;
 	}
 
 	@Override
-	public Page<Course> findByDepartmentIds(List<Integer> departmentIds, Pageable pageable) {
+	public Page<Course> findByDepartmentIds(List<Integer> departmentIds, Pageable pageable)
+	{
 		Page<Course> coursesPage = null;
-		try {
+		try
+		{
 			coursesPage = courseRepo.findByDepartmentIdIn(departmentIds, pageable);
-			if (coursesPage == null) {
+			if (coursesPage == null)
+			{
 				throw new RuntimeException("Error retrieving courses!");
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(e.getMessage());
 		}
 		return coursesPage;
@@ -96,30 +119,38 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	public Page<Course> findByNameContainingAndDepartmentIds(String name, List<Integer> departmentIds,
-			Pageable pageable) {
+			Pageable pageable)
+	{
 		Page<Course> coursesPage = null;
-		try {
-			coursesPage = courseRepo.findByNameContainingAndDepartmentIdIn(
-										name, departmentIds, pageable);
-			if (coursesPage == null) {
+		try
+		{
+			coursesPage = courseRepo.findByNameContainingAndDepartmentIdIn(name, departmentIds, pageable);
+			if (coursesPage == null)
+			{
 				throw new RuntimeException("Error retrieving courses!");
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(e.getMessage());
 		}
 		return coursesPage;
 	}
 
 	@Override
-	public Course findById(int theId) {
+	public Course findById(int theId)
+	{
 		Optional<Course> result = null;
-		try {
+		try
+		{
 			result = courseRepo.findById(theId);
-			if (!result.isPresent()) {
-				throw new RuntimeException(
-						"Could not find course with id: " + theId);
+			if (!result.isPresent())
+			{
+				throw new RuntimeException("Could not find course with id: " + theId);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException(e.getMessage());
 		}
 		return result.get();
@@ -127,20 +158,26 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	@Transactional
-	public Course save(Course theCourse) {
+	public Course save(Course theCourse)
+	{
 		Course savedCourse = null;
-		try {
+		try
+		{
 			List<CourseUnit> courseUnits = theCourse.getCourseUnits();
 			theCourse.setCourseUnits(null);
 
 			savedCourse = courseRepo.save(theCourse);
-			for (CourseUnit courseUnit: courseUnits) {
+			for (CourseUnit courseUnit : courseUnits)
+			{
 				theCourse.addCourseUnit(courseUnit);
 			}
-			if (savedCourse == null) {
+			if (savedCourse == null)
+			{
 				throw new RuntimeException("Error saving course!");
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
@@ -149,12 +186,15 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	@Transactional
-	public Course update(Course theCourse) {
+	public Course update(Course theCourse)
+	{
 		Optional<Course> courseOptional = null;
 		Course courseToUpdate = null;
-		try {
+		try
+		{
 			courseOptional = courseRepo.findById(theCourse.getId());
-			if (!courseOptional.isPresent()) {
+			if (!courseOptional.isPresent())
+			{
 				throw new RuntimeException("Error updating course!");
 			}
 			courseToUpdate = courseOptional.get();
@@ -168,22 +208,29 @@ public class CourseServiceImpl implements CourseService {
 			courseToUpdate.setStudyProgram(theCourse.getStudyProgram());
 			courseToUpdate.setLecturers(theCourse.getLecturers());
 
-			for(CourseUnit courseUnit : theCourse.getCourseUnits()) {
+			for (CourseUnit courseUnit : theCourse.getCourseUnits())
+			{
 				courseToUpdate.addCourseUnit(courseUnit);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
 		return courseToUpdate;
 	}
-	
+
 	@Override
 	@Transactional
-	public void deleteById(int theId) {
-		try {
+	public void deleteById(int theId)
+	{
+		try
+		{
 			courseRepo.deleteById(theId);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new RuntimeException("An error has occured while deleting the Course!");
 		}
 	}

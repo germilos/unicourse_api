@@ -30,7 +30,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @DiscriminatorColumn(name = "type")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @Type(value = Professor.class, name = "P"), @Type(value = Assistant.class, name = "A") })
-public abstract class Lecturer {
+public abstract class Lecturer
+{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,77 +51,92 @@ public abstract class Lecturer {
 	protected Department department;
 
 	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
-	@JoinTable(name = "course_lecturer", joinColumns = @JoinColumn(name = "lecturer_id"),
-		inverseJoinColumns = @JoinColumn(name = "course_id"))
+	@JoinTable(name = "course_lecturer", joinColumns = @JoinColumn(name = "lecturer_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
 	@JsonBackReference
 	private List<Course> courses;
 
-	public Lecturer() {
+	public Lecturer()
+	{
 	}
 
-	public Lecturer(String nameSurname, String studyField, Department department) {
+	public Lecturer(String nameSurname, String studyField, Department department)
+	{
 		this.nameSurname = nameSurname;
 		this.studyField = studyField;
 		this.department = department;
 	}
 
-	public int getId() {
+	public int getId()
+	{
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(int id)
+	{
 		this.id = id;
 	}
 
-	public String getNameSurname() {
+	public String getNameSurname()
+	{
 		return nameSurname;
 	}
 
-	public void setNameSurname(String nameSurname) {
+	public void setNameSurname(String nameSurname)
+	{
 		this.nameSurname = nameSurname;
 	}
 
-	public String getStudyField() {
+	public String getStudyField()
+	{
 		return studyField;
 	}
 
-	public void setStudyField(String studyField) {
+	public void setStudyField(String studyField)
+	{
 		this.studyField = studyField;
 	}
 
-	public Department getDepartment() {
+	public Department getDepartment()
+	{
 		return department;
 	}
 
-	public void setDepartment(Department department) {
+	public void setDepartment(Department department)
+	{
 		this.department = department;
 	}
 
 	@Transient
-	public char getType() {
+	public char getType()
+	{
 		return type;
 	}
 
-	public void setType(char type) {
+	public void setType(char type)
+	{
 		this.type = type;
 	}
 
-	public List<Course> getCourses() {
+	public List<Course> getCourses()
+	{
 		return courses;
 	}
 
-	public void setCourses(List<Course> courses) {
+	public void setCourses(List<Course> courses)
+	{
 		this.courses = courses;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Lecturer [id=" + id + ", nameSurname=" + nameSurname + ", studyField=" + studyField + ", type=" + type
 				+ ", department=" + department + ", courses=" + courses + "]";
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + id;
@@ -128,7 +144,8 @@ public abstract class Lecturer {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -140,5 +157,5 @@ public abstract class Lecturer {
 			return false;
 		return true;
 	}
-	
+
 }

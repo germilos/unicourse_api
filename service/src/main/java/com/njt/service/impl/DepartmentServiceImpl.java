@@ -14,38 +14,47 @@ import com.njt.service.DepartmentService;
 
 @Service
 @Transactional
-public class DepartmentServiceImpl implements DepartmentService {
+public class DepartmentServiceImpl implements DepartmentService
+{
 
 	private DepartmentRepository departmentRepo;
 
 	@Autowired
-	public DepartmentServiceImpl(DepartmentRepository theDepartmentRepo) {
+	public DepartmentServiceImpl(DepartmentRepository theDepartmentRepo)
+	{
 		departmentRepo = theDepartmentRepo;
 	}
 
 	@Override
-	public List<Department> findAll() {
+	public List<Department> findAll()
+	{
 		return departmentRepo.findAll();
 	}
 
 	@Override
-	public Department findById(int theId) {
+	public Department findById(int theId)
+	{
 		Optional<Department> result = departmentRepo.findById(theId);
-		
-		if (result.isPresent()) {
+
+		if (result.isPresent())
+		{
 			return result.get();
-		} else {
+		}
+		else
+		{
 			throw new RuntimeException("Could not find department with id: " + theId);
 		}
 	}
 
 	@Override
-	public void save(Department theDepartment) {
+	public void save(Department theDepartment)
+	{
 		departmentRepo.save(theDepartment);
 	}
 
 	@Override
-	public void deleteById(int theId) {
+	public void deleteById(int theId)
+	{
 		departmentRepo.deleteById(theId);
 	}
 

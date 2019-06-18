@@ -9,7 +9,8 @@ import com.njt.repo.dto.CourseListElementDTO;
 import com.njt.repo.entity.Course;
 import com.njt.repo.entity.Lecturer;
 
-public interface CourseService {
+public interface CourseService
+{
 
 	public long count();
 
@@ -27,8 +28,8 @@ public interface CourseService {
 	public Course findById(int theId);
 
 	public Course save(Course theCourse);
-	
+
 	public Course update(Course theCourse);
-	
+
 	public void deleteById(int theId);
 }

@@ -15,22 +15,26 @@ import com.njt.service.DepartmentService;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class DepartmentRestController {
+public class DepartmentRestController
+{
 
 	private DepartmentService departmentService;
 
 	@Autowired
-	public DepartmentRestController(DepartmentService theDepartmentService) {
+	public DepartmentRestController(DepartmentService theDepartmentService)
+	{
 		departmentService = theDepartmentService;
 	}
 
 	@GetMapping("/departments")
-	public List<Department> findAll() {
+	public List<Department> findAll()
+	{
 		return departmentService.findAll();
 	}
 
 	@GetMapping("/departments/{departmentId}")
-	public Department getDepartment(@PathVariable int departmentId) {
+	public Department getDepartment(@PathVariable int departmentId)
+	{
 		return departmentService.findById(departmentId);
 	}
 }

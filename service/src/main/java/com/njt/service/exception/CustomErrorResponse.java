@@ -1,41 +1,51 @@
 package com.njt.service.exception;
 
-public class CustomErrorResponse {
-	
+public class CustomErrorResponse
+{
+
 	private int status;
 	private String message;
 	private long timeStamp;
-	
-	public CustomErrorResponse() {}
 
-	public CustomErrorResponse(int status, String message, long timeStamp) {
+	public CustomErrorResponse()
+	{
+	}
+
+	public CustomErrorResponse(int status, String message, long timeStamp)
+	{
 		super();
 		this.status = status;
 		this.message = message;
 		this.timeStamp = timeStamp;
 	}
 
-	public int getStatus() {
+	public int getStatus()
+	{
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(int status)
+	{
 		this.status = status;
 	}
 
-	public String getMessage() {
+	public String getMessage()
+	{
 		return message;
 	}
 
-	public void setMessage(String message) {
+	public void setMessage(String message)
+	{
 		this.message = message;
 	}
 
-	public long getTimeStamp() {
+	public long getTimeStamp()
+	{
 		return timeStamp;
 	}
 
-	public void setTimeStamp(long timeStamp) {
+	public void setTimeStamp(long timeStamp)
+	{
 		this.timeStamp = timeStamp;
 	}
 }

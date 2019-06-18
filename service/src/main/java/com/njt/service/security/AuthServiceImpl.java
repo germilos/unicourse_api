@@ -27,43 +27,46 @@ import com.njt.service.AuthService;
 @Service
 public class AuthServiceImpl implements AuthService
 {
-	
+
 	@Autowired
 	AuthenticationManager authenticationManager;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	RoleRepository roleRepository;
-	
+
 	@Autowired
 	PasswordEncoder encoder;
-	
+
 	@Autowired
 	JwtProvider jwtProvider;
-	
-	public JwtResponse authenticateUser(LoginFormDTO loginRequest) {
+
+	public JwtResponse authenticateUser(LoginFormDTO loginRequest)
+	{
 
 		System.out.println("Finished auth");
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
-						loginRequest.getPassword()));
+				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		System.out.println("Finished auth");
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
+
 		String jwt = jwtProvider.generateJwtToken(authentication);
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		
+
 		return new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities());
 	}
-	
-	public void registerUser(SignUpFormDTO signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+
+	public void registerUser(SignUpFormDTO signUpRequest)
+	{
+		if (userRepository.existsByUsername(signUpRequest.getUsername()))
+		{
 			throw new RuntimeException("User with that username exists!");
 		}
 
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+		if (userRepository.existsByEmail(signUpRequest.getEmail()))
+		{
 			throw new RuntimeException("User with that email exists!");
 		}
 
@@ -75,7 +78,8 @@ public class AuthServiceImpl implements AuthService
 		Set<Role> roles = new HashSet<>();
 
 		strRoles.forEach(role -> {
-			switch (role) {
+			switch (role)
+			{
 			case "admin":
 				Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
 						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));

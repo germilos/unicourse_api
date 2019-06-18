@@ -57,8 +57,9 @@ public class CourseRestController
 	}
 
 	@GetMapping(value = "courses/get", params = { "pageNumber", "pageSize", "orderBy", "direction" })
-	public Page<CourseListElementDTO> findPaginated(@RequestParam("pageNumber") int page, @RequestParam("pageSize") int size,
-			@RequestParam("orderBy") String orderBy, @RequestParam("direction") String direction)
+	public Page<CourseListElementDTO> findPaginated(@RequestParam("pageNumber") int page,
+			@RequestParam("pageSize") int size, @RequestParam("orderBy") String orderBy,
+			@RequestParam("direction") String direction)
 	{
 
 		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
@@ -69,8 +70,8 @@ public class CourseRestController
 
 	@GetMapping(value = "courses/get", params = { "name", "pageNumber", "pageSize", "orderBy", "direction" })
 	public Page<CourseListElementDTO> findByNameSurnameContaining(@RequestParam("name") String name,
-			@RequestParam("pageNumber") int page, @RequestParam("pageSize") int size, @RequestParam("orderBy") String orderBy,
-			@RequestParam("direction") String direction)
+			@RequestParam("pageNumber") int page, @RequestParam("pageSize") int size,
+			@RequestParam("orderBy") String orderBy, @RequestParam("direction") String direction)
 	{
 		System.out.println("This called!");
 		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
@@ -81,8 +82,8 @@ public class CourseRestController
 
 	@GetMapping(value = "courses/get", params = { "departmentId", "pageNumber", "pageSize", "orderBy", "direction" })
 	public Page<CourseListElementDTO> findByDepartmentIds(@RequestParam("departmentId") List<Integer> departmentId,
-			@RequestParam("pageNumber") int page, @RequestParam("pageSize") int size, @RequestParam("orderBy") String orderBy,
-			@RequestParam("direction") String direction)
+			@RequestParam("pageNumber") int page, @RequestParam("pageSize") int size,
+			@RequestParam("orderBy") String orderBy, @RequestParam("direction") String direction)
 	{
 		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
 		Page<Course> coursePage = courseService.findByDepartmentIds(departmentId, pageable);
@@ -90,7 +91,8 @@ public class CourseRestController
 				coursePage.getTotalElements());
 	}
 
-	@GetMapping(value = "courses/get", params = { "name", "departmentId", "pageNumber", "pageSize", "orderBy", "direction" })
+	@GetMapping(value = "courses/get", params = { "name", "departmentId", "pageNumber", "pageSize", "orderBy",
+			"direction" })
 	public Page<CourseListElementDTO> findByNameSurnameAndDepartmentIds(@RequestParam("name") String name,
 			@RequestParam("departmentId") List<Integer> departmentId, @RequestParam("pageNumber") int page,
 			@RequestParam("pageSize") int size, @RequestParam("orderBy") String orderBy,

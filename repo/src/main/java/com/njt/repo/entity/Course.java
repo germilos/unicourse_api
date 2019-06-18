@@ -20,7 +20,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "course")
-public class Course {
+public class Course
+{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,17 +51,19 @@ public class Course {
 	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CourseUnit> courseUnits;
 
-	@ManyToMany(cascade = {  CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+	@ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
 	@JoinTable(name = "course_lecturer", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "lecturer_id"))
 	private List<Lecturer> lecturers;
 
-	public Course() {
+	public Course()
+	{
 		this.courseUnits = new ArrayList<CourseUnit>();
 		this.lecturers = new ArrayList<Lecturer>();
 	}
 
 	public Course(String name, String goal, String status, int espb, Department department, StudyProgram studyProgram,
-			List<CourseUnit> courseUnits) {
+			List<CourseUnit> courseUnits)
+	{
 		this.name = name;
 		this.goal = goal;
 		this.status = status;
@@ -70,80 +73,100 @@ public class Course {
 		this.courseUnits = courseUnits;
 	}
 
-	public int getId() {
+	public int getId()
+	{
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(int id)
+	{
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
-	public String getGoal() {
+	public String getGoal()
+	{
 		return goal;
 	}
 
-	public void setGoal(String goal) {
+	public void setGoal(String goal)
+	{
 		this.goal = goal;
 	}
 
-	public String getStatus() {
+	public String getStatus()
+	{
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(String status)
+	{
 		this.status = status;
 	}
 
-	public int getEspb() {
+	public int getEspb()
+	{
 		return espb;
 	}
 
-	public void setEspb(int espb) {
+	public void setEspb(int espb)
+	{
 		this.espb = espb;
 	}
 
-	public Department getDepartment() {
+	public Department getDepartment()
+	{
 		return department;
 	}
 
-	public void setDepartment(Department department) {
+	public void setDepartment(Department department)
+	{
 		this.department = department;
 	}
 
-	public StudyProgram getStudyProgram() {
+	public StudyProgram getStudyProgram()
+	{
 		return studyProgram;
 	}
 
-	public void setStudyProgram(StudyProgram studyProgram) {
+	public void setStudyProgram(StudyProgram studyProgram)
+	{
 		this.studyProgram = studyProgram;
 	}
 
-	public List<CourseUnit> getCourseUnits() {
+	public List<CourseUnit> getCourseUnits()
+	{
 		return courseUnits;
 	}
 
-	public void setCourseUnits(List<CourseUnit> courseUnits) {
+	public void setCourseUnits(List<CourseUnit> courseUnits)
+	{
 		this.courseUnits = courseUnits;
 	}
 
-	public List<Lecturer> getLecturers() {
+	public List<Lecturer> getLecturers()
+	{
 		return lecturers;
 	}
 
-	public void setLecturers(List<Lecturer> lecturers) {
+	public void setLecturers(List<Lecturer> lecturers)
+	{
 		this.lecturers = lecturers;
 	}
 
-	public void addCourseUnit(CourseUnit newUnit) {
-		if (courseUnits == null) {
+	public void addCourseUnit(CourseUnit newUnit)
+	{
+		if (courseUnits == null)
+		{
 			courseUnits = new ArrayList<CourseUnit>();
 		}
 
@@ -151,26 +174,31 @@ public class Course {
 		newUnit.setCourse(this);
 	}
 
-	public void removeCourseUnit(CourseUnit courseUnit) {
+	public void removeCourseUnit(CourseUnit courseUnit)
+	{
 		courseUnits.remove(courseUnit);
 		courseUnit.setCourse(null);
 	}
 
-	public void clearCourseUnits() {
-		for (CourseUnit courseUnit : courseUnits) {
+	public void clearCourseUnits()
+	{
+		for (CourseUnit courseUnit : courseUnits)
+		{
 			courseUnit.setCourse(null);
 		}
 		courseUnits.clear();
 	}
 
-	public void addLecturer(Lecturer lecturer) {
+	public void addLecturer(Lecturer lecturer)
+	{
 		if (lecturers == null)
 			lecturers = new ArrayList<Lecturer>();
 		lecturers.add(lecturer);
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Course [id=" + id + ", name=" + name + ", goal=" + goal + ", status=" + status + ", espb=" + espb
 				+ ", courseUnits=" + courseUnits + "]" + "department = " + department + ", lecturers=" + lecturers;
 	}

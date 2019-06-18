@@ -16,7 +16,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "course_unit")
-public class CourseUnit {
+public class CourseUnit
+{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,61 +38,76 @@ public class CourseUnit {
 	@JsonBackReference
 	private Course course;
 
-	public CourseUnit() {}
+	public CourseUnit()
+	{
+	}
 
-	public CourseUnit(int number, String name, String description, Course course) {
+	public CourseUnit(int number, String name, String description, Course course)
+	{
 		this.number = number;
 		this.name = name;
 		this.description = description;
 		this.course = course;
 	}
 
-	public int getId() {
+	public int getId()
+	{
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(int id)
+	{
 		this.id = id;
 	}
 
-	public int getNumber() {
+	public int getNumber()
+	{
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public void setNumber(int number)
+	{
 		this.number = number;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
-	public String getDescription() {
+	public String getDescription()
+	{
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(String description)
+	{
 		this.description = description;
 	}
 
-	public Course getCourse() {
+	public Course getCourse()
+	{
 		return course;
 	}
 
-	public void setCourse(Course course) {
+	public void setCourse(Course course)
+	{
 		this.course = course;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CourseUnit [id=" + id + ", number=" + number + ", name=" + name + ", description=" + description + "]";
 	}
 
-	@Override public boolean equals(Object o)
+	@Override
+	public boolean equals(Object o)
 	{
 		if (this == o)
 			return true;
@@ -101,7 +117,8 @@ public class CourseUnit {
 		return id == that.id;
 	}
 
-	@Override public int hashCode()
+	@Override
+	public int hashCode()
 	{
 		return Objects.hash(id);
 	}

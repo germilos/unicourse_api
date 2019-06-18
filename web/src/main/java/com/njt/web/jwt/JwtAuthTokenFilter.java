@@ -17,7 +17,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.njt.service.security.JwtProvider;
 import com.njt.service.security.UserDetailsServiceImpl;
 
-public class JwtAuthTokenFilter extends OncePerRequestFilter {
+public class JwtAuthTokenFilter extends OncePerRequestFilter
+{
 
 	@Autowired
 	private JwtProvider tokenProvider;
@@ -25,16 +26,18 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 
-//	private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
+	//	private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-			FilterChain filterChain)
-			throws ServletException, IOException {
-		try {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException
+	{
+		try
+		{
 
 			String jwt = getJwt(request);
-			if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
+			if (jwt != null && tokenProvider.validateJwtToken(jwt))
+			{
 				String username = tokenProvider.getUserNameFromJwtToken(jwt);
 
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -44,17 +47,21 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			logger.error("Can NOT set user authentication -> Message: {}", e);
 		}
 
 		filterChain.doFilter(request, response);
 	}
 
-	private String getJwt(HttpServletRequest request) {
+	private String getJwt(HttpServletRequest request)
+	{
 		String authHeader = request.getHeader("Authorization");
 
-		if (authHeader != null && authHeader.startsWith("Bearer ")) {
+		if (authHeader != null && authHeader.startsWith("Bearer "))
+		{
 			return authHeader.replace("Bearer ", "");
 		}
 

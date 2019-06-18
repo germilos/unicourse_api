@@ -19,22 +19,25 @@ public class AuthRestController
 {
 
 	private AuthServiceImpl authService;
-	
+
 	@Autowired
-	public AuthRestController(AuthServiceImpl authService) {
+	public AuthRestController(AuthServiceImpl authService)
+	{
 		this.authService = authService;
 	}
-	
+
 	@PostMapping("/signin")
-	public JwtResponse authenticate(@RequestBody LoginFormDTO loginRequest) {
+	public JwtResponse authenticate(@RequestBody LoginFormDTO loginRequest)
+	{
 		System.out.println(loginRequest.getUsername() + " " + loginRequest.getPassword());
 		return authService.authenticateUser(loginRequest);
 	}
-	
+
 	@PostMapping("/signup")
-	public void register(@RequestBody SignUpFormDTO signUpRequest) {
+	public void register(@RequestBody SignUpFormDTO signUpRequest)
+	{
 		System.out.println("Signup username: " + signUpRequest.getUsername());
 		authService.registerUser(signUpRequest);
 	}
-	
+
 }

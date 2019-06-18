@@ -15,22 +15,26 @@ import com.njt.service.StudyProgramService;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class StudyProgramRestController {
+public class StudyProgramRestController
+{
 
 	private StudyProgramService studyProgramService;
 
 	@Autowired
-	public StudyProgramRestController(StudyProgramService theStudyProgramService) {
+	public StudyProgramRestController(StudyProgramService theStudyProgramService)
+	{
 		studyProgramService = theStudyProgramService;
 	}
 
 	@GetMapping("/studyprograms")
-	public List<StudyProgram> findAll() {
+	public List<StudyProgram> findAll()
+	{
 		return studyProgramService.findAll();
 	}
 
 	@GetMapping("/studyprograms/{studyProgramId}")
-	public StudyProgram getStudyProgram(@PathVariable int studyProgramId) {
+	public StudyProgram getStudyProgram(@PathVariable int studyProgramId)
+	{
 		return studyProgramService.findById(studyProgramId);
 	}
 }

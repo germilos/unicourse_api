@@ -9,7 +9,8 @@ import org.springframework.data.domain.Page;
 import com.njt.repo.dto.CourseListElementDTO;
 import com.njt.repo.entity.Course;
 
-public class DTOMapper {
+public class DTOMapper
+{
 
     private static  ModelMapper modelMapper;
     private static DTOMapper instance;
@@ -22,12 +23,14 @@ public class DTOMapper {
     	return instance == null ? new DTOMapper() : instance;
     }
 
-	public List<CourseListElementDTO> convertCoursePageToDTO(Page<Course> coursePage) {
+	public List<CourseListElementDTO> convertCoursePageToDTO(Page<Course> coursePage)
+	{
 		return coursePage.stream().map(course -> modelMapper.map(course, CourseListElementDTO.class))
 				.collect(Collectors.toList());
 	}
-	
-	public List<CourseListElementDTO> convertCoursesToDTO(List<Course> courses ) {
+
+	public List<CourseListElementDTO> convertCoursesToDTO(List<Course> courses)
+	{
 		return courses.stream().map(course -> modelMapper.map(course, CourseListElementDTO.class))
 				.collect(Collectors.toList());
 	}
