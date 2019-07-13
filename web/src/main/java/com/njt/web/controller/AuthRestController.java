@@ -29,14 +29,12 @@ public class AuthRestController
 	@PostMapping("/signin")
 	public JwtResponse authenticate(@RequestBody LoginFormDTO loginRequest)
 	{
-		System.out.println(loginRequest.getUsername() + " " + loginRequest.getPassword());
 		return authService.authenticateUser(loginRequest);
 	}
 
 	@PostMapping("/signup")
 	public void register(@RequestBody SignUpFormDTO signUpRequest)
 	{
-		System.out.println("Signup username: " + signUpRequest.getUsername());
 		authService.registerUser(signUpRequest);
 	}
 
