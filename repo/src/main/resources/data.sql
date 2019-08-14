@@ -1,8 +1,8 @@
 INSERT INTO role VALUES(1, "ROLE_ADMIN");
 INSERT INTO role VALUES(2, "ROLE_USER");
 
-INSERT INTO user VALUES(1, "Frank", "frankie@gmail.com", "Frankie", "$2a$10$U69SsCaSBlI/x4X7WaZrMuTCjHGWwj1DzacR1706zabQlihWaztr.");
-INSERT INTO user VALUES(2, "milos@gmail.com", "Milos", "Miki", "$2a$10$U69SsCaSBlI/x4X7WaZrMuTCjHGWwj1DzacR1706zabQlihWaztr.");
+INSERT INTO user VALUES(1, "frankie@gmail.com", "Frank", "$2a$10$U69SsCaSBlI/x4X7WaZrMuTCjHGWwj1DzacR1706zabQlihWaztr.", "Frankie");
+INSERT INTO user VALUES(2, "milos@gmail.com", "Milos", "$2a$10$U69SsCaSBlI/x4X7WaZrMuTCjHGWwj1DzacR1706zabQlihWaztr.", "Miki");
 
 INSERT INTO user_role VALUES(1, 1);
 INSERT INTO user_role VALUES(2, 2);
@@ -15,19 +15,19 @@ INSERT INTO department VALUES(2, "Software Engineering");
 INSERT INTO department VALUES(3, "Economics");
 INSERT INTO department VALUES(4, "Business Development");
 
-INSERT INTO course VALUES(null, "Mathematics", "Some goal", "Mandatory", 6, 1, 1);
-INSERT INTO course VALUES(null, "Intelligent systems", "Some goal", "Mandatory", 6, 1, 1);
-INSERT INTO course VALUES(null, "Advanced Java Technologies", "Some goal", "Optional", 6, 2, 1);
-INSERT INTO course VALUES(null, "Java 2", "Some goal", "Mandatory", 6, 2, 2);
-INSERT INTO course VALUES(null, "Intro to Programming", "Some goal", "Mandatory", 6, 2, 2);
-INSERT INTO course VALUES(null, "Macroeconomics", "Some goal", "Optional", 6, 1, 2);
-INSERT INTO course VALUES(null, "Economic indicators", "Some goal", "Optional", 6, 1, 3);
-INSERT INTO course VALUES(null, "Market Research", "Some goal", "Mandatory", 6, 2, 3);
-INSERT INTO course VALUES(null, "Business Models", "Some goal", "Optional", 6, 2, 3);
-INSERT INTO course VALUES(null, "Strategic Management", "Some goal", "Optional", 6, 2, 4);
-INSERT INTO course VALUES(null, "Software Patterns", "Some goal", "Mandatory", 6, 1, 4);
-INSERT INTO course VALUES(null, "Microeconomics", "Some goal", "Mandatory", 6, 1, 4);
-INSERT INTO course VALUES(null, "Data Science", "Some goal", "Optional", 6, 2, 3);
+INSERT INTO course VALUES(null, 6, "Some goal", "Mathematics", "Mandatory", 1, 1);
+INSERT INTO course VALUES(null, 6, "Some goal", "Intelligent Systems", "Mandatory", 2, 1);
+INSERT INTO course VALUES(null, 5, "Some goal", "Advanced Java", "Optional", 2, 1);
+INSERT INTO course VALUES(null, 6, "Some goal", "Java 2", "Mandatory", 2, 1);
+INSERT INTO course VALUES(null, 5, "Some goal", "Intro to Programming", "Optional", 2, 1);
+INSERT INTO course VALUES(null, 6, "Some goal", "Macroeconomics", "Mandatory", 3, 2);
+INSERT INTO course VALUES(null, 5, "Some goal", "Economic Indicators", "Optional", 3, 2);
+INSERT INTO course VALUES(null, 6, "Some goal", "Market Research", "Mandatory", 4, 2);
+INSERT INTO course VALUES(null, 5, "Some goal", "Business Models", "Optional", 4, 2);
+INSERT INTO course VALUES(null, 6, "Some goal", "Strategic Management", "Mandatory", 4, 2);
+INSERT INTO course VALUES(null, 6, "Some goal", "Software Patterns", "Mandatory", 2, 2);
+INSERT INTO course VALUES(null, 6, "Some goal", "Microeconomics", "Mandatory", 3, 2);
+INSERT INTO course VALUES(null, 5, "Some goal", "Data Science", "Optional", 1, 1);
 
 INSERT INTO lecturer VALUES("P", null, "Frank Fransis", "AI", null, "Full Professor", 41, 1);
 INSERT INTO lecturer VALUES("P", null, "Anne Bush", "Data science", null, "Associate Professor", 33, 1);

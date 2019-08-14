@@ -123,8 +123,8 @@ public class CourseRestController
 		return courseService.update(theCourse);
 	}
 
-	@DeleteMapping("/courses/{courseId}")
-	public void deleteCourse(@PathVariable int courseId)
+	@DeleteMapping(value = "/courses", params = { "courseId" })
+	public void deleteCourse(@RequestParam int courseId)
 	{
 		courseService.deleteById(courseId);
 	}

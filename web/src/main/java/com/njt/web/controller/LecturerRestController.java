@@ -101,8 +101,8 @@ public class LecturerRestController
 		return lecturerService.save(theLecturer);
 	}
 
-	@DeleteMapping("/lecturers/{lecturerId}")
-	public void deleteLecturer(@PathVariable int lecturerId)
+	@DeleteMapping(value = "/lecturers", params = { "lecturerId" })
+	public void deleteLecturer(@RequestParam int lecturerId)
 	{
 		lecturerService.deleteById(lecturerId);
 	}
