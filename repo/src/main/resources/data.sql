@@ -1,8 +1,8 @@
 INSERT INTO role VALUES(1, "ROLE_ADMIN");
 INSERT INTO role VALUES(2, "ROLE_USER");
 
-INSERT INTO user VALUES(1, "frankie@gmail.com", "Frank", "$2a$10$U69SsCaSBlI/x4X7WaZrMuTCjHGWwj1DzacR1706zabQlihWaztr.", "Frankie");
-INSERT INTO user VALUES(2, "milos@gmail.com", "Milos", "$2a$10$U69SsCaSBlI/x4X7WaZrMuTCjHGWwj1DzacR1706zabQlihWaztr.", "Miki");
+INSERT INTO user VALUES(1, "frankie@gmail.com", "Frank", "Frankie", "$2a$10$U69SsCaSBlI/x4X7WaZrMuTCjHGWwj1DzacR1706zabQlihWaztr.");
+INSERT INTO user VALUES(2, "milos@gmail.com", "Milos", "Miki", "$2a$10$U69SsCaSBlI/x4X7WaZrMuTCjHGWwj1DzacR1706zabQlihWaztr.");
 
 INSERT INTO user_role VALUES(1, 1);
 INSERT INTO user_role VALUES(2, 2);

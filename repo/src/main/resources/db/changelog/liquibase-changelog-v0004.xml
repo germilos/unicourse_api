@@ -50,8 +50,8 @@
                 referencedColumnNames="id" referencedTableName="user" validate="true"/>
     </changeSet>
     <changeSet author="Milos" id="dropTable">
-        <dropTable cascadeConstraints="true" catalogName="unicourse"
-                   schemaName="unicourse" tableName="authorities"/>
+<!--        <dropTable cascadeConstraints="true" catalogName="unicourse"-->
+<!--                   schemaName="unicourse" tableName="authorities"/>-->
         <dropTable cascadeConstraints="true" catalogName="unicourse"
                    schemaName="unicourse" tableName="users"/>
     </changeSet>

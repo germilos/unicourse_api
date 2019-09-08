@@ -1,0 +1,238 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="Milos (generated)" id="1551813495869-1">
+        <createTable tableName="authorities">
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authority" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-2">
+        <createTable tableName="course">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+            <column name="goal" type="VARCHAR(200)"/>
+            <column name="status" type="VARCHAR(50)"/>
+            <column defaultValueNumeric="0" name="espb" type="INT"/>
+            <column name="study_program_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="department_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-3">
+        <createTable tableName="course_lecturer">
+            <column name="lecturer_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="course_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-4">
+        <createTable tableName="course_unit">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column defaultValueNumeric="0" name="number" type="INT"/>
+            <column name="name" type="VARCHAR(50)"/>
+            <column name="description" type="VARCHAR(50)"/>
+            <column name="course_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-5">
+        <createTable tableName="department">
+            <column name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-6">
+        <createTable tableName="lecturer">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name_surname" type="VARCHAR(100)"/>
+            <column name="study_field" type="VARCHAR(100)"/>
+            <column name="position" type="VARCHAR(50)"/>
+            <column name="research_number" type="INT"/>
+            <column name="diploma" type="VARCHAR(50)"/>
+            <column name="type" type="CHAR(1)"/>
+            <column name="department_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-7">
+        <createTable tableName="study_program">
+            <column name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+            <column name="accreditation_year" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="insert-jwt-security-tables" author="Milos">
+        <createTable tableName="role">
+            <column name="id" autoIncrement="true" type="BIGINT(20)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+        </createTable>
+        <createTable tableName="user">
+            <column name="id" autoIncrement="true" type="BIGINT(20)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint
+                columnNames="username" constraintName="user_uc"
+                tableName="user"/>
+        <createTable tableName="user_role">
+            <column name="id" autoIncrement="true" type="BIGINT(20)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="BIGINT(20)"/>
+            <column name="role_id" type="BIGINT(20)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="user_role_foreign_keys" author="Milos">
+
+        <addForeignKeyConstraint
+                baseColumnNames="role_id" baseTableName="user_role"
+                constraintName="role_id_fk" deferrable="false"
+                initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                referencedColumnNames="id" referencedTableName="role" validate="true"/>
+        <addForeignKeyConstraint
+                baseColumnNames="user_id" baseTableName="user_role"
+                constraintName="user_id_fk" deferrable="false"
+                initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                referencedColumnNames="id" referencedTableName="user" validate="true"/>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-9">
+        <addUniqueConstraint
+                columnNames="username, authority" constraintName="authorities_idx_1"
+                tableName="authorities"/>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-10">
+        <createIndex indexName="fk_course_department1_idx"
+                     tableName="course">
+            <column name="department_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-11">
+        <createIndex indexName="fk_course_study_program1_idx"
+                     tableName="course">
+            <column name="study_program_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-12">
+        <createIndex indexName="fk_course_unit_course_idx"
+                     tableName="course_unit">
+            <column name="course_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-13">
+        <createIndex indexName="fk_lecturer_department1_idx"
+                     tableName="lecturer">
+            <column name="department_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-14">
+        <createIndex
+                indexName="fk_lecturer_has_course_course1_idx"
+                tableName="course_lecturer">
+            <column name="course_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-15">
+        <createIndex
+                indexName="fk_lecturer_has_course_lecturer1_idx"
+                tableName="course_lecturer">
+            <column name="lecturer_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-16">
+        <addForeignKeyConstraint
+                baseColumnNames="username" baseTableName="authorities"
+                constraintName="authorities_ibfk_1" deferrable="false"
+                initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                referencedColumnNames="username" referencedTableName="user"
+                validate="true"/>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-17">
+        <addForeignKeyConstraint
+                baseColumnNames="department_id" baseTableName="course"
+                constraintName="fk_course_department1" deferrable="false"
+                initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                referencedColumnNames="id" referencedTableName="department"
+                validate="true"/>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-18">
+        <addForeignKeyConstraint
+                baseColumnNames="lecturer_id" baseTableName="course_lecturer"
+                constraintName="fk_course_has_lecturer_lecturer1" deferrable="false"
+                initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                referencedColumnNames="id" referencedTableName="lecturer"
+                validate="true"/>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-19">
+        <addForeignKeyConstraint
+                baseColumnNames="study_program_id" baseTableName="course"
+                constraintName="fk_course_study_program1" deferrable="false"
+                initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                referencedColumnNames="id" referencedTableName="study_program"
+                validate="true"/>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-20">
+        <addForeignKeyConstraint
+                baseColumnNames="course_id" baseTableName="course_unit"
+                constraintName="fk_course_unit_course" deferrable="false"
+                initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                referencedColumnNames="id" referencedTableName="course"
+                validate="true"/>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-21">
+        <addForeignKeyConstraint
+                baseColumnNames="department_id" baseTableName="lecturer"
+                constraintName="fk_lecturer_department1" deferrable="false"
+                initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                referencedColumnNames="id" referencedTableName="department"
+                validate="true"/>
+    </changeSet>
+    <changeSet author="Milos (generated)" id="1551813495869-22">
+        <addForeignKeyConstraint
+                baseColumnNames="course_id" baseTableName="course_lecturer"
+                constraintName="fk_lecturer_has_course_course1" deferrable="false"
+                initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                referencedColumnNames="id" referencedTableName="course"
+                validate="true"/>
+    </changeSet>
+</databaseChangeLog>
