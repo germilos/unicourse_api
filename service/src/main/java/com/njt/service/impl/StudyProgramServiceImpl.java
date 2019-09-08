@@ -46,16 +46,4 @@ public class StudyProgramServiceImpl implements StudyProgramService
 			throw new RuntimeException("Could not find study program with id: " + theId);
 		}
 	}
-
-	@Override
-	public void save(StudyProgram theStudyProgram)
-	{
-		studyProgramRepo.save(theStudyProgram);
-	}
-
-	@Override
-	public void deleteById(int theId)
-	{
-		studyProgramRepo.deleteById(theId);
-	}
 }

@@ -11,7 +11,4 @@ public interface StudyProgramService
 
 	public StudyProgram findById(int theId);
 
-	public void save(StudyProgram theStudyProgram);
-
-	public void deleteById(int theId);
 }

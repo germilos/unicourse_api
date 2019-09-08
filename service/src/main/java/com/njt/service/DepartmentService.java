@@ -11,7 +11,4 @@ public interface DepartmentService
 
 	public Department findById(int theId);
 
-	public void save(Department theDepartment);
-
-	public void deleteById(int theId);
 }

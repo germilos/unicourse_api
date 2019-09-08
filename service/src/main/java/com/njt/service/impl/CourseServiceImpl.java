@@ -1,10 +1,8 @@
 package com.njt.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.njt.repo.CourseUnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,12 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.njt.repo.CourseRepository;
-import com.njt.repo.LecturerRepository;
 import com.njt.repo.entity.Course;
 import com.njt.repo.entity.CourseUnit;
-import com.njt.repo.entity.Lecturer;
 import com.njt.service.CourseService;
-import com.njt.service.exception.NotFoundException;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,13 +20,11 @@ public class CourseServiceImpl implements CourseService
 {
 
 	private CourseRepository courseRepo;
-	private CourseUnitRepository courseUnitRepo;
 
 	@Autowired
-	public CourseServiceImpl(CourseRepository theCourseRepository, CourseUnitRepository theCourseUnitRepo)
+	public CourseServiceImpl(CourseRepository theCourseRepository)
 	{
 		courseRepo = theCourseRepository;
-		courseUnitRepo = theCourseUnitRepo;
 	}
 
 	// TODO: Remove, unnecessary with Page

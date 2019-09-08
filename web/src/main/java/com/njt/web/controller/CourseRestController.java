@@ -32,105 +32,92 @@ import com.njt.web.util.DTOMapper;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class CourseRestController
-{
+public class CourseRestController {
 
-	private CourseService courseService;
+    private CourseService courseService;
 
-	@Autowired
-	public CourseRestController(CourseService theCourseService)
-	{
-		courseService = theCourseService;
-	}
+    @Autowired
+    public CourseRestController(CourseService theCourseService) {
+        courseService = theCourseService;
+    }
 
-	@GetMapping("/courses/count")
-	public long getCourseCount()
-	{
-		return courseService.count();
-	}
+    @GetMapping("/courses/count")
+    public long getCourseCount() {
+        return courseService.count();
+    }
 
-	@GetMapping("/courses")
-	public List<CourseListElementDTO> findAll()
-	{
-		List<Course> courses = courseService.findAll();
-		return DTOMapper.getInstance().convertCoursesToDTO(courses);
-	}
+    @GetMapping("/courses")
+    public List<CourseListElementDTO> findAll() {
+        List<Course> courses = courseService.findAll();
+        return DTOMapper.getInstance().convertCoursesToDTO(courses);
+    }
 
-	@GetMapping(value = "courses/get", params = { "pageNumber", "pageSize", "orderBy", "direction" })
-	public Page<CourseListElementDTO> findPaginated(@RequestParam("pageNumber") int page,
-			@RequestParam("pageSize") int size, @RequestParam("orderBy") String orderBy,
-			@RequestParam("direction") String direction)
-	{
+    @GetMapping(value = "courses/get", params = {"pageNumber", "pageSize", "orderBy", "direction"})
+    public Page<CourseListElementDTO> findPaginated(@RequestParam("pageNumber") int page,
+                                                    @RequestParam("pageSize") int size, @RequestParam("orderBy") String orderBy,
+                                                    @RequestParam("direction") String direction) {
 
-		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
-		Page<Course> coursePage = courseService.findAll(pageable);
-		return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
-				coursePage.getTotalElements());
-	}
+        Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
+        Page<Course> coursePage = courseService.findAll(pageable);
+        return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
+                coursePage.getTotalElements());
+    }
 
-	@GetMapping(value = "courses/get", params = { "name", "pageNumber", "pageSize", "orderBy", "direction" })
-	public Page<CourseListElementDTO> findByNameSurnameContaining(@RequestParam("name") String name,
-			@RequestParam("pageNumber") int page, @RequestParam("pageSize") int size,
-			@RequestParam("orderBy") String orderBy, @RequestParam("direction") String direction)
-	{
-		System.out.println("This called!");
-		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
-		Page<Course> coursePage = courseService.findByNameContaining(name, pageable);
-		return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
-				coursePage.getTotalElements());
-	}
+    @GetMapping(value = "courses/get", params = {"name", "pageNumber", "pageSize", "orderBy", "direction"})
+    public Page<CourseListElementDTO> findByNameSurnameContaining(@RequestParam("name") String name,
+                                                                  @RequestParam("pageNumber") int page, @RequestParam("pageSize") int size,
+                                                                  @RequestParam("orderBy") String orderBy, @RequestParam("direction") String direction) {
+        System.out.println("This called!");
+        Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
+        Page<Course> coursePage = courseService.findByNameContaining(name, pageable);
+        return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
+                coursePage.getTotalElements());
+    }
 
-	@GetMapping(value = "courses/get", params = { "departmentId", "pageNumber", "pageSize", "orderBy", "direction" })
-	public Page<CourseListElementDTO> findByDepartmentIds(@RequestParam("departmentId") List<Integer> departmentId,
-			@RequestParam("pageNumber") int page, @RequestParam("pageSize") int size,
-			@RequestParam("orderBy") String orderBy, @RequestParam("direction") String direction)
-	{
-		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
-		Page<Course> coursePage = courseService.findByDepartmentIds(departmentId, pageable);
-		return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
-				coursePage.getTotalElements());
-	}
+    @GetMapping(value = "courses/get", params = {"departmentId", "pageNumber", "pageSize", "orderBy", "direction"})
+    public Page<CourseListElementDTO> findByDepartmentIds(@RequestParam("departmentId") List<Integer> departmentId,
+                                                          @RequestParam("pageNumber") int page, @RequestParam("pageSize") int size,
+                                                          @RequestParam("orderBy") String orderBy, @RequestParam("direction") String direction) {
+        Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
+        Page<Course> coursePage = courseService.findByDepartmentIds(departmentId, pageable);
+        return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
+                coursePage.getTotalElements());
+    }
 
-	@GetMapping(value = "courses/get", params = { "name", "departmentId", "pageNumber", "pageSize", "orderBy",
-			"direction" })
-	public Page<CourseListElementDTO> findByNameSurnameAndDepartmentIds(@RequestParam("name") String name,
-			@RequestParam("departmentId") List<Integer> departmentId, @RequestParam("pageNumber") int page,
-			@RequestParam("pageSize") int size, @RequestParam("orderBy") String orderBy,
-			@RequestParam("direction") String direction)
-	{
+    @GetMapping(value = "courses/get", params = {"name", "departmentId", "pageNumber", "pageSize", "orderBy",
+            "direction"})
+    public Page<CourseListElementDTO> findByNameSurnameAndDepartmentIds(@RequestParam("name") String name,
+                                                                        @RequestParam("departmentId") List<Integer> departmentId, @RequestParam("pageNumber") int page,
+                                                                        @RequestParam("pageSize") int size, @RequestParam("orderBy") String orderBy,
+                                                                        @RequestParam("direction") String direction) {
 
-		Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
-		Page<Course> coursePage = courseService.findByNameContainingAndDepartmentIds(name, departmentId, pageable);
-		return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
-				coursePage.getTotalElements());
-	}
+        Pageable pageable = PageRequest.of(page, size, getSort(direction, orderBy));
+        Page<Course> coursePage = courseService.findByNameContainingAndDepartmentIds(name, departmentId, pageable);
+        return new PageImpl<CourseListElementDTO>(DTOMapper.getInstance().convertCoursePageToDTO(coursePage), pageable,
+                coursePage.getTotalElements());
+    }
 
-	@GetMapping("/courses/{courseId}")
-	public Course getCourse(@PathVariable int courseId)
-	{
-		return courseService.findById(courseId);
-	}
+    @GetMapping("/courses/{courseId}")
+    public Course getCourse(@PathVariable int courseId) {
+        return courseService.findById(courseId);
+    }
 
-	@PostMapping("/courses")
-	public Course addCourse(@RequestBody Course theCourse)
-	{
-		return courseService.save(theCourse);
-	}
+    @PostMapping("/courses")
+    public Course addCourse(@RequestBody Course theCourse) {
+        return courseService.save(theCourse);
+    }
 
-	@PutMapping("/courses")
-	public Course updateCourse(@RequestBody Course theCourse)
-	{
-		return courseService.update(theCourse);
-	}
+    @PutMapping("/courses")
+    public Course updateCourse(@RequestBody Course theCourse) {
+        return courseService.update(theCourse);
+    }
 
-	@DeleteMapping(value = "/courses", params = { "courseId" })
-	public void deleteCourse(@RequestParam int courseId)
-	{
-		courseService.deleteById(courseId);
-	}
+    @DeleteMapping(value = "/courses", params = {"courseId"})
+    public void deleteCourse(@RequestParam int courseId) {
+        courseService.deleteById(courseId);
+    }
 
-	private Sort getSort(String direction, String orderBy)
-	{
-		return direction.equals("ASC") ? new Sort(Sort.Direction.ASC, orderBy) : new Sort(Sort.Direction.DESC, orderBy);
-	}
+    private Sort getSort(String direction, String orderBy) {
+        return direction.equals("ASC") ? new Sort(Sort.Direction.ASC, orderBy) : new Sort(Sort.Direction.DESC, orderBy);
+    }
 }

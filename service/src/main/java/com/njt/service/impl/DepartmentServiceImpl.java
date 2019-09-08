@@ -46,16 +46,4 @@ public class DepartmentServiceImpl implements DepartmentService
 		}
 	}
 
-	@Override
-	public void save(Department theDepartment)
-	{
-		departmentRepo.save(theDepartment);
-	}
-
-	@Override
-	public void deleteById(int theId)
-	{
-		departmentRepo.deleteById(theId);
-	}
-
 }
